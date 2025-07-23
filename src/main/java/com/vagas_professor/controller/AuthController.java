@@ -12,6 +12,8 @@ import com.vagas_professor.dto.auth.AuthResponse;
 import com.vagas_professor.dto.auth.RegisterRequest;
 import com.vagas_professor.service.AuthService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -30,6 +32,7 @@ public class AuthController {
 
     // POST /api/auth/login
     @PostMapping("/login")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
