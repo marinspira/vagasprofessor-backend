@@ -78,34 +78,34 @@ public class AuthServiceTest {
         assertEquals("valid-jwt", response.token());
     }
 
-    // @Test
-    // void shouldThrowWhenUserNotFound() {
-    // AuthRequest request = new AuthRequest("not_found", null, "password");
+    @Test
+    void shouldThrowWhenUserNotFound() {
+    AuthRequest request = new AuthRequest("not_found", "null", "password");
 
-    // when(userRepository.findByUsername("not_found")).thenReturn(Optional.empty());
+    when(userRepository.findByUsername("not_found")).thenReturn(Optional.empty());
 
-    // Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-    // authService.login(request);
-    // });
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+    authService.login(request);
+    });
 
-    // assertEquals("Invalid credentials", exception.getMessage());
-    // }
+    assertEquals("User not found with that username or email", exception.getMessage());
+    }
 
-    // @Test
-    // void shouldThrowWhenPasswordDoesNotMatch() {
-    // AuthRequest request = new AuthRequest("marinspira", null, "wrong-password");
+    @Test
+    void shouldThrowWhenPasswordDoesNotMatch() {
+    AuthRequest request = new AuthRequest("marinspira", null, "wrong-password");
 
-    // User user = new User();
-    // user.setUsername("marinspira");
-    // user.setPassword("hashed-password");
+    User user = new User();
+    user.setUsername("marinspira");
+    user.setPassword("hashed-password");
 
-    // when(userRepository.findByUsername("marinspira")).thenReturn(Optional.of(user));
-    // when(encoder.matches("wrong-password", "hashed-password")).thenReturn(false);
+    when(userRepository.findByUsername("marinspira")).thenReturn(Optional.of(user));
+    when(encoder.matches("wrong-password", "hashed-password")).thenReturn(false);
 
-    // Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-    // authService.login(request);
-    // });
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+    authService.login(request);
+    });
 
-    // assertEquals("Invalid credentials", exception.getMessage());
-    // }
+    assertEquals("Invalid password", exception.getMessage());
+    }
 }

@@ -59,7 +59,7 @@ public class AuthService {
 
         // 2. Check password matches
         if (!encoder.matches(request.password(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid username or password");
+            throw new IllegalArgumentException("Invalid password");
         }
 
         // 3. Generate JWT token
