@@ -33,7 +33,7 @@ public class AuthServiceTest {
 
     @Test
     void shoulThrowWhenUsernameAlreadyExists() {
-        RegisterRequest request = new RegisterRequest("maria@gmail.com", "marinspira", "password", "ROLE_TEACHER");
+        RegisterRequest request = new RegisterRequest("maria@gmail.com", "marinspira", "password", "TEACHER");
 
         when(userRepository.findByUsername("marinspira"))
                 // Option means that it may or may not contain a non-null value
@@ -48,7 +48,7 @@ public class AuthServiceTest {
 
     @Test
     void shouldRegisterUserSuccessfully() {
-        RegisterRequest request = new RegisterRequest("maria@gmail.com", "marinspira", "password", "ROLE_TEACHER");
+        RegisterRequest request = new RegisterRequest("maria@gmail.com", "marinspira", "password", "TEACHER");
 
         when(userRepository.findByUsername("marinspira")).thenReturn(Optional.empty());
         when(userRepository.findByEmail("maria@gmail.com")).thenReturn(Optional.empty());
