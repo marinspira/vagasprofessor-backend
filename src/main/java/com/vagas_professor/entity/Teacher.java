@@ -4,12 +4,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Entity
 @Table(name = "teachers")
@@ -17,6 +28,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor // Lombok: generates a no-argument constructor
 @AllArgsConstructor // Lombok: generates a constructor with all fields
+@Accessors(chain = true)
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

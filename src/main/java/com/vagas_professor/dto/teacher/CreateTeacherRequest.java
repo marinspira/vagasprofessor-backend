@@ -3,7 +3,10 @@ package com.vagas_professor.dto.teacher;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateTeacherRequest(
         @NotBlank(message = "ID can not be blank") 
@@ -18,11 +21,13 @@ public record CreateTeacherRequest(
         @NotBlank(message = "CPF is required")
         String cpf,
 
-        @NotBlank(message = "Date of birth is required")
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        @NotNull(message = "Date of birth is required")
         LocalDate dateOfBirth,
 
         @NotBlank(message = "City is required") 
         String city,
+        
         @NotBlank(message = "State is required")
         String state,
 
