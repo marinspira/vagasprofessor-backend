@@ -10,7 +10,6 @@ import com.vagas_professor.entity.User;
 import com.vagas_professor.repository.UserRepository;
 import com.vagas_professor.security.JwtService;
 
-
 @Service
 public class AuthService {
     private final UserRepository userRepository;
@@ -27,6 +26,7 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
+
         // 1. Check if username/email already exis
         if (userRepository.findByUsername(request.username()).isPresent()) {
             throw new IllegalArgumentException("Username already taken");
@@ -46,7 +46,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername(), user.getRole());
 
         return new AuthResponse(token);
     }
@@ -54,8 +54,8 @@ public class AuthService {
     public AuthResponse login(AuthRequest request) {
         // Retrieve user by username or email
         User user = userRepository.findByUsername(request.username())
-            .or(() -> userRepository.findByEmail(request.username()))
-            .orElseThrow(() -> new IllegalArgumentException("User not found with that username or email"));
+                .or(() -> userRepository.findByEmail(request.username()))
+                .orElseThrow(() -> new IllegalArgumentException("User not found with that username or email"));
 
         // 2. Check password matches
         if (!encoder.matches(request.password(), user.getPassword())) {
@@ -63,7 +63,7 @@ public class AuthService {
         }
 
         // 3. Generate JWT token
-        String token = jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername(), user.getRole());
 
         // 4. Return token wrapped in response DTO
         return new AuthResponse(token);
