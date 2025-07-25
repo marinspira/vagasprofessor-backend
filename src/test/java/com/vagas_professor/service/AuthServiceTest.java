@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 
 public class AuthServiceTest {
+
     private UserRepository userRepository;
     private PasswordEncoder encoder;
     private JwtService jwtService;
@@ -61,22 +62,23 @@ public class AuthServiceTest {
         verify(userRepository).save(any(User.class));
     }
 
-    // @Test
-    // void shouldLoginSuccessfully() {
-    //     AuthRequest request = new AuthRequest("marinspira", "maria@gmail.com", "password");
+    @Test
+    void shouldLoginSuccessfully() {
+        AuthRequest request = new AuthRequest("marinspira", "maria@gmail.com", "password");
 
-    //     User user = new User();
-    //     user.setUsername("marinspira");
-    //     user.setPassword("hashed-password");
+        User user = new User();
+        user.setUsername("marinspira");
+        user.setPassword("hashed-password");
+        user.setRole("TEACHER");
 
-    //     when(userRepository.findByUsername("marinspira")).thenReturn(Optional.of(user));
-    //     when(encoder.matches("password", "hashed-password")).thenReturn(true);
-    //     when(jwtService.generateToken("marinspira", "TEACHER")).thenReturn("valid-jwt");
+        when(userRepository.findByUsername("marinspira")).thenReturn(Optional.of(user));
+        when(encoder.matches("password", "hashed-password")).thenReturn(true);
+        when(jwtService.generateToken("marinspira", "TEACHER")).thenReturn("valid-jwt");
 
-    //     AuthResponse response = authService.login(request);
+        AuthResponse response = authService.login(request);
 
-    //     assertEquals("valid-jwt", response.token());
-    // }
+        assertEquals("valid-jwt", response.token());
+    }
 
     @Test
     void shouldThrowWhenUserNotFound() {
